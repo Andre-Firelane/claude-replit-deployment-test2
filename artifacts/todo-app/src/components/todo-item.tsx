@@ -1,13 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Check, Circle, Trash2, Edit2, X } from "lucide-react";
-import { 
-  useUpdateTodo, 
-  useDeleteTodo, 
-  getGetTodoStatsQueryKey, 
-  getListTodosQueryKey, 
-  Todo 
+import {
+  useUpdateTodo,
+  useDeleteTodo,
+  getGetTodoStatsQueryKey,
+  getListTodosQueryKey,
+  Todo,
+  Priority
 } from "@workspace/api-client-react";
+
+const PRIORITY_CYCLE: Priority[] = ["low", "medium", "high"];
+
+const priorityStyles: Record<Priority, { dot: string; label: string }> = {
+  low:    { dot: "bg-slate-400",  label: "Low" },
+  medium: { dot: "bg-amber-400",  label: "Medium" },
+  high:   { dot: "bg-red-500",    label: "High" },
+};
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -75,6 +84,14 @@ export function TodoItem({ todo }: TodoItemProps) {
     }
   };
 
+  const handleCyclePriority = () => {
+    const next = PRIORITY_CYCLE[(PRIORITY_CYCLE.indexOf(todo.priority) + 1) % PRIORITY_CYCLE.length];
+    updateTodo.mutate(
+      { id: todo.id, data: { priority: next } },
+      { onSuccess: invalidateQueries }
+    );
+  };
+
   useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
@@ -90,7 +107,16 @@ export function TodoItem({ todo }: TodoItemProps) {
       )}
       data-testid={`todo-item-${todo.id}`}
     >
-      <button 
+      <button
+        onClick={handleCyclePriority}
+        disabled={updateTodo.isPending}
+        title={`Priority: ${priorityStyles[todo.priority].label} — click to change`}
+        className="flex-shrink-0 flex items-center justify-center w-4 h-4 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <span className={cn("w-2.5 h-2.5 rounded-full transition-colors", priorityStyles[todo.priority].dot)} />
+      </button>
+
+      <button
         onClick={handleToggle}
         disabled={updateTodo.isPending}
         className={cn(
