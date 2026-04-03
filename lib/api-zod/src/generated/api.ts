@@ -15,6 +15,8 @@ export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
 
+export const Priority = zod.enum(["low", "medium", "high"]);
+
 /**
  * @summary List all todos
  */
@@ -22,6 +24,7 @@ export const ListTodosResponseItem = zod.object({
   id: zod.number(),
   title: zod.string(),
   completed: zod.boolean(),
+  priority: Priority,
   createdAt: zod.coerce.date(),
   updatedAt: zod.coerce.date(),
 });
@@ -32,6 +35,7 @@ export const ListTodosResponse = zod.array(ListTodosResponseItem);
  */
 export const CreateTodoBody = zod.object({
   title: zod.string(),
+  priority: Priority.optional(),
 });
 
 /**
@@ -45,6 +49,7 @@ export const GetTodoResponse = zod.object({
   id: zod.number(),
   title: zod.string(),
   completed: zod.boolean(),
+  priority: Priority,
   createdAt: zod.coerce.date(),
   updatedAt: zod.coerce.date(),
 });
@@ -59,12 +64,14 @@ export const UpdateTodoParams = zod.object({
 export const UpdateTodoBody = zod.object({
   title: zod.string().optional(),
   completed: zod.boolean().optional(),
+  priority: Priority.optional(),
 });
 
 export const UpdateTodoResponse = zod.object({
   id: zod.number(),
   title: zod.string(),
   completed: zod.boolean(),
+  priority: Priority,
   createdAt: zod.coerce.date(),
   updatedAt: zod.coerce.date(),
 });

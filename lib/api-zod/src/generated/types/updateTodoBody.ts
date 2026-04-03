@@ -6,7 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
+import { Priority } from "./todo";
+
 export interface UpdateTodoBody {
   title?: string;
   completed?: boolean;
+  priority?: Priority;
 }

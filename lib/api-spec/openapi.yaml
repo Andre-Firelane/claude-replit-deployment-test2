@@ -162,6 +162,9 @@ components:
           type: string
       required:
         - status
+    Priority:
+      type: string
+      enum: [low, medium, high]
     Todo:
       type: object
       properties:
@@ -171,6 +174,8 @@ components:
           type: string
         completed:
           type: boolean
+        priority:
+          $ref: "#/components/schemas/Priority"
         createdAt:
           type: string
           format: date-time
@@ -181,6 +186,7 @@ components:
         - id
         - title
         - completed
+        - priority
         - createdAt
         - updatedAt
     CreateTodoBody:
@@ -188,6 +194,8 @@ components:
       properties:
         title:
           type: string
+        priority:
+          $ref: "#/components/schemas/Priority"
       required:
         - title
     UpdateTodoBody:
@@ -197,6 +205,8 @@ components:
           type: string
         completed:
           type: boolean
+        priority:
+          $ref: "#/components/schemas/Priority"
     TodoStats:
       type: object
       properties:
