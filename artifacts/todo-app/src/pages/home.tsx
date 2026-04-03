@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 import { 
   useListTodos, 
   useGetTodoStats,
@@ -17,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function Home() {
   const [newTitle, setNewTitle] = useState("");
   const queryClient = useQueryClient();
+  const { theme, toggle } = useTheme();
   
   const { data: todos, isLoading: isTodosLoading, isError: isTodosError } = useListTodos();
   const { data: stats, isLoading: isStatsLoading } = useGetTodoStats();
@@ -45,9 +47,18 @@ export default function Home() {
         
         {/* Header & Stats */}
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl sm:text-4xl font-serif text-foreground font-medium tracking-tight">
-            Focus
-          </h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl sm:text-4xl font-serif text-foreground font-medium tracking-tight">
+              Focus
+            </h1>
+            <button
+              onClick={toggle}
+              aria-label="Toggle dark mode"
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          </div>
           
           <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
             {isStatsLoading ? (
