@@ -6,4 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from "./createTodoBody";
+export * from "./error";
 export * from "./healthStatus";
+export * from "./todo";
+export * from "./todoStats";
+export * from "./updateTodoBody";

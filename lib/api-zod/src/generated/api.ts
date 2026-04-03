@@ -14,3 +14,73 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * @summary List all todos
+ */
+export const ListTodosResponseItem = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  completed: zod.boolean(),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+export const ListTodosResponse = zod.array(ListTodosResponseItem);
+
+/**
+ * @summary Create a new todo
+ */
+export const CreateTodoBody = zod.object({
+  title: zod.string(),
+});
+
+/**
+ * @summary Get a todo by ID
+ */
+export const GetTodoParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetTodoResponse = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  completed: zod.boolean(),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Update a todo
+ */
+export const UpdateTodoParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateTodoBody = zod.object({
+  title: zod.string().optional(),
+  completed: zod.boolean().optional(),
+});
+
+export const UpdateTodoResponse = zod.object({
+  id: zod.number(),
+  title: zod.string(),
+  completed: zod.boolean(),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a todo
+ */
+export const DeleteTodoParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
+ * @summary Get todo statistics
+ */
+export const GetTodoStatsResponse = zod.object({
+  total: zod.number(),
+  completed: zod.number(),
+  pending: zod.number(),
+});

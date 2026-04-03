@@ -8,3 +8,30 @@
 export interface HealthStatus {
   status: string;
 }
+
+export interface Todo {
+  id: number;
+  title: string;
+  completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateTodoBody {
+  title: string;
+}
+
+export interface UpdateTodoBody {
+  title?: string;
+  completed?: boolean;
+}
+
+export interface TodoStats {
+  total: number;
+  completed: number;
+  pending: number;
+}
+
+export interface Error {
+  error: string;
+}
